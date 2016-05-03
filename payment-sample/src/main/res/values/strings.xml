@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Payment Sample</string>
+    <string name="paypal_button">Pay with PayPal</string>
+</resources>
