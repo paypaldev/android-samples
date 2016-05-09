@@ -36,7 +36,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity{
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .clientId("Af85gADr8S7yz0ytmPctCbhefnyFV7V5RHvXfoxuO7qCAmNtjYcAyrDyRjIPR1zcku_TIeGi5emgE8mf");
+            .clientId("YOUR APPLICATION CLIENT ID");
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
