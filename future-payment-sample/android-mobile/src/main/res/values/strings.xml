@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Future Payments Sample</string>
-    <string name="paypal_button">Pay with PayPal</string>
+    <string name="paypal_button">Process Future Payment</string>
 </resources>

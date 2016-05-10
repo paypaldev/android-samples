@@ -1,15 +1,13 @@
 var bodyParser = require('body-parser'),
     http = require('http'),
-    https = require('https'),
     paypal = require('paypal-rest-sdk'),
-    querystring = require('querystring'),
     app = require('express')();
 
 var client_id = 'YOUR APPLICATION CLIENT ID';
 var secret = 'YOUR APPLICATION SECRET';
 
 paypal.configure({
-    'mode': 'sandbox', //sandbox or live
+    'mode': 'sandbox',
     'client_id': client_id,
     'client_secret': secret
 });
@@ -21,16 +19,16 @@ app.post('/fpstore', function(req, res){
     var code = {'authorization_code': req.body.code};
     var metadata_id = req.body.metadataId;
     
+    //generate token from provided code
     paypal.generateToken(code, function (error, refresh_token) {
         if (error) {
             console.log(error);
             console.log(error.response);
         } else {
-            //Refresh token has long shelf life. It is recommended to store this in a database
-            //for future payments
+            //create future payments config 
             var fp_config = {'client_metadata_id': metadata_id, 'refresh_token': refresh_token};
 
-            //Set up payment details
+            //payment details
             var payment_config = {
                 "intent": "sale",
                 "payer": {
@@ -39,13 +37,13 @@ app.post('/fpstore', function(req, res){
                 "transactions": [{
                     "amount": {
                         "currency": "USD",
-                        "total": "1.00"
+                        "total": "3.50"
                     },
-                    "description": "This is the payment description."
+                    "description": "Mesozoic era monster toy"
                 }]
             };
 
-            //Create future payment
+            //process future payment
             paypal.payment.create(payment_config, fp_config, function (error, payment) {
                 if (error) {
                     console.log(error.response);
@@ -53,7 +51,9 @@ app.post('/fpstore', function(req, res){
                 } else {
                     console.log("Create Payment Response");
                     console.log(payment);
-                    res.write(JSON.stringify(payment));
+                    
+                    //send payment object back to mobile
+                    res.send(JSON.stringify(payment));
                 }
             });
         }
